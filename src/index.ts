@@ -7,6 +7,12 @@ export {
   type Book,
   type CreateBookOptions,
 } from './domain/book.js';
+export {
+  readBorrower,
+  withBorrower,
+  withoutBorrower,
+  type Borrower,
+} from './domain/borrow-record.js';
 export { BookStore, bookStore } from './store/book-store.js';
 export {
   SAMPLE_BOOKS,
