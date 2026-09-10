@@ -1,0 +1,19 @@
+{
+  "name": "library-management-system",
+  "version": "0.1.0",
+  "private": true,
+  "description": "本地运行的图书馆管理 MVP（借书 / 还书 / 查看图书列表），数据仅存进程内存。",
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "tsx --test tests/*.test.ts",
+    "lint": "tsc -p tsconfig.json --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}
