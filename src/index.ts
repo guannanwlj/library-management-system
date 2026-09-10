@@ -32,12 +32,15 @@ export {
   type RuleBook,
 } from './rules/borrow-rules.js';
 export {
+  type CommandHandler,
+  type CommandRegistrar,
+} from './features/command.js';
+export {
   EMPTY_LIST_MESSAGE,
   formatBookLine,
   formatBookList,
   createListBooksHandler,
   registerListCommand,
-  type CommandRegistrar,
   type ListHandler,
 } from './features/list-books.js';
 export {
@@ -50,3 +53,9 @@ export {
   returnBook,
   type ReturnResult,
 } from './features/return-book.js';
+export {
+  parseReturnBookId,
+  createReturnCommandHandler,
+  registerReturnCommand,
+  type ReturnHandler,
+} from './features/return-command.js';
