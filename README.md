@@ -16,5 +16,6 @@ npm run build   # 编译到 dist/
 
 ## 目录
 - `src/domain/book.ts`：`Book` 实体、`BookStatus` 枚举与工厂/错误。
+- `src/domain/borrow-record.ts`：借阅记录（`borrower`）读写/清除约定。
 - `src/store/book-store.ts`：进程内 `BookStore` 集合与单例 `bookStore`。
 - `docs/designs/`：设计说明；`docs/test-cases/`：测试用例清单。

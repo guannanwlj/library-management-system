@@ -6,6 +6,7 @@ import {
   normalizeBorrower,
   type Book,
 } from '../domain/book.js';
+import { withBorrower, withoutBorrower } from '../domain/borrow-record.js';
 
 function clone(book: Book): Book {
   return { ...book };
@@ -55,19 +56,45 @@ export class BookStore {
     status: BookStatus,
     borrower: string | null = null,
   ): Book {
-    const book = this.books.get(id);
-    if (!book) {
-      throw new BookNotFoundError(id);
-    }
+    const book = this.require(id);
 
     book.status = status;
     book.borrower = normalizeBorrower(status, borrower);
     return clone(book);
   }
 
+  /**
+   * 写入借阅人标识（FP-003）：原样保存自由文本，不校验存在性。
+   * 只改动借阅记录字段，不流转状态；编号不存在时抛 `BookNotFoundError`。
+   */
+  setBorrower(id: string, borrower: string): Book {
+    const updated = withBorrower(this.require(id), borrower);
+    this.books.set(id, updated);
+    return clone(updated);
+  }
+
+  /**
+   * 清除借阅人标识（FP-003 归还）：借阅人置为 `null`，不流转状态；
+   * 编号不存在时抛 `BookNotFoundError`。
+   */
+  clearBorrower(id: string): Book {
+    const updated = withoutBorrower(this.require(id));
+    this.books.set(id, updated);
+    return clone(updated);
+  }
+
   /** 清空集合（重置/测试用）。 */
   clear(): void {
     this.books.clear();
+  }
+
+  /** 取出编号对应的图书，不存在时抛 `BookNotFoundError`。 */
+  private require(id: string): Book {
+    const book = this.books.get(id);
+    if (!book) {
+      throw new BookNotFoundError(id);
+    }
+    return book;
   }
 }
 
