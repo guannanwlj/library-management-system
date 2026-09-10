@@ -49,6 +49,17 @@ export {
   type BorrowResult,
 } from './features/borrow-book.js';
 export {
+  BORROWER_MISSING_MESSAGE,
+  createBorrowHandler,
+  handleBorrow,
+  parseBorrowArgs,
+  registerBorrowCommand,
+  type BorrowExecutor,
+  type BorrowHandler,
+  type BorrowRegistrar,
+  type ParsedBorrow,
+} from './features/borrow-command.js';
+export {
   RETURN_SUCCESS_MESSAGE,
   returnBook,
   type ReturnResult,
