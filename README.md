@@ -24,9 +24,11 @@ python3 -m unittest discover -s tests  # 运行 Python 命令行单元测试
 - `src/features/command.ts`：FP-005 契约形状（`CommandHandler` / `CommandRegistrar`）。
 - `src/features/list-books.ts`：`list` 图书列表的格式化与处理器（消费 `BookStore`）。
 - `src/features/borrow-book.ts`：借出执行与状态变更（`borrow(bookId, borrower)`）。
+- `src/features/borrow-command.ts`：`borrow <bookId> <borrower>` 命令入口（FP-006，解析/校验/透传）。
 - `src/features/return-book.ts`：`returnBook(bookId)` 归还执行与状态恢复（FP-009）。
 - `src/features/return-command.ts`：`return` 命令入口（解析 `bookId` 并透传归还结果，FP-008）。
-- `library/`：命令行入口（`python3 -m library return|list`）与命令处理；
-  `library/borrow_books.py` 为同契约的 Python 借出执行，`library/return_book.py` 为与 TS 等价的 Python 侧归还执行，
+- `library/`：命令行入口（`python3 -m library borrow|return|list`）与各命令处理；
+  `library/borrow_books.py` 为同契约的 Python 借出执行，`library/borrow_command.py` 为
+  挂载到 `library.cli` 的借阅命令入口，`library/return_book.py` 为与 TS 等价的 Python 侧归还执行，
   `library/return_command.py` 为 Python 侧 `return` 命令入口。
 - `docs/designs/`：设计说明；`docs/test-cases/`：测试用例清单。
