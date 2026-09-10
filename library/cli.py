@@ -111,4 +111,11 @@ def main(argv: Optional[Sequence[str]] = None) -> int:
 
 
 if __name__ == "__main__":
-    raise SystemExit(main())
+    # Delegate to the package module so handlers mounted on
+    # ``library.cli.dispatcher`` (imported via the package __init__) are
+    # visible when this file is executed with ``python -m library.cli``.
+    from library import cli as _cli
+    from library.book_store import seed_sample_books
+
+    seed_sample_books()
+    raise SystemExit(_cli.main())
