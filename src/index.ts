@@ -19,3 +19,15 @@ export {
   initializeSampleBooks,
   type SampleBook,
 } from './data/sample-books.js';
+export {
+  BorrowOperation,
+  BorrowRuleMessages,
+  checkBorrow,
+  checkBorrowRules,
+  checkReturn,
+  type BookLookup,
+  type BorrowRuleDecision,
+  type BorrowRuleInput,
+  type BorrowRuleMessage,
+  type RuleBook,
+} from './rules/borrow-rules.js';
