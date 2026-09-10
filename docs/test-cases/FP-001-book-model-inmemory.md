@@ -38,8 +38,18 @@
 `InvalidBookError`，与 `BookNotFoundError`、`DuplicateBookIdError`
 一并由 `domain/book.ts` 导出。
 
+## 数据不变式与归一化
+
+| 编号 | 场景 | 期望 |
+|---|---|---|
+| N-1 | 可借图书携带遗留借阅人入库 | 借阅人归一化为 `null`（读回同样为 `null`） |
+| N-2 | 已借出图书携带借阅人入库 | 状态与借阅人跨多次读取保持一致 |
+| N-3 | 入库时编号/名称含首尾空白 | 存储为去除首尾空白后的值 |
+| N-4 | 空/纯空白名称入库 | 抛 `InvalidBookError` |
+| N-5 | 清空集合 | `listAll()` 为空，`find` 返回 `undefined` |
+
 ## 验收映射
 - AC-1 → 用例 `listAll returns seeded books`
 - AC-2 → 用例 `setStatus updates status and borrower`
 - AC-3 → 用例 `status persists across reads`
-- E-1..E-7 见对应用例。
+- E-1..E-7、N-1..N-5 见对应用例。

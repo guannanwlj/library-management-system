@@ -3,6 +3,7 @@ import {
   BookNotFoundError,
   DuplicateBookIdError,
   createBook,
+  normalizeBorrower,
   type Book,
 } from '../domain/book.js';
 
@@ -60,7 +61,7 @@ export class BookStore {
     }
 
     book.status = status;
-    book.borrower = status === BookStatus.Available ? null : (borrower ?? null);
+    book.borrower = normalizeBorrower(status, borrower);
     return clone(book);
   }
 

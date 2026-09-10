@@ -25,6 +25,17 @@ export interface CreateBookOptions {
   borrower?: string | null;
 }
 
+/**
+ * 统一借阅人归一化：数据不变式「`available` 时借阅人恒为 `null`」。
+ * 集中一处，供建库与更新状态共用。
+ */
+export function normalizeBorrower(
+  status: BookStatus,
+  borrower: string | null | undefined,
+): string | null {
+  return status === BookStatus.Available ? null : (borrower ?? null);
+}
+
 /** 图书编号/名称为空时抛出。 */
 export class InvalidBookError extends Error {
   constructor(message: string) {
@@ -69,8 +80,7 @@ export function createBook(
   }
 
   const status = options.status ?? BookStatus.Available;
-  const borrower =
-    status === BookStatus.Available ? null : (options.borrower ?? null);
+  const borrower = normalizeBorrower(status, options.borrower);
 
   return { id: normalizedId, title: normalizedTitle, status, borrower };
 }

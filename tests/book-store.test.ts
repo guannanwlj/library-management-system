@@ -172,6 +172,71 @@ describe('BookStore - 边界与错误路径', () => {
   });
 });
 
+describe('BookStore - 数据不变式与归一化', () => {
+  it('N-1: an available book never keeps a borrower', () => {
+    const store = new BookStore();
+
+    const added = store.add(
+      createBook('B001', '测试图书', {
+        status: BookStatus.Available,
+        borrower: 'stale',
+      }),
+    );
+
+    assert.equal(added.borrower, null);
+    assert.equal(store.find('B001')?.borrower, null);
+  });
+
+  it('N-2: a borrowed book keeps its borrower across reads', () => {
+    const store = new BookStore();
+
+    store.add(
+      createBook('B001', '测试图书', {
+        status: BookStatus.Borrowed,
+        borrower: 'u9',
+      }),
+    );
+
+    assert.equal(store.find('B001')?.status, BookStatus.Borrowed);
+    assert.equal(store.find('B001')?.borrower, 'u9');
+  });
+
+  it('N-3: id and title are trimmed when a book is stored', () => {
+    const store = new BookStore();
+
+    const book = store.create('  B001  ', '  测试图书  ');
+
+    assert.equal(book.id, 'B001');
+    assert.equal(book.title, '测试图书');
+    assert.equal(store.find('B001')?.title, '测试图书');
+  });
+
+  it('N-4: a blank title is rejected', () => {
+    const store = new BookStore();
+
+    assert.throws(() => store.create('B001', '   '), InvalidBookError);
+    assert.throws(
+      () =>
+        store.add({
+          id: 'B001',
+          title: '',
+          status: BookStatus.Available,
+          borrower: null,
+        }),
+      InvalidBookError,
+    );
+  });
+
+  it('N-5: clear empties the collection', () => {
+    const store = seededStore();
+
+    store.clear();
+
+    assert.deepEqual(store.listAll(), []);
+    assert.equal(store.find('B001'), undefined);
+  });
+});
+
 describe('BookStore - 进程内单例', () => {
   it('exposes one shared instance across module imports', async () => {
     const [first, second] = await Promise.all([
