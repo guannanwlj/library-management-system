@@ -31,3 +31,12 @@ export {
   type BorrowRuleMessage,
   type RuleBook,
 } from './rules/borrow-rules.js';
+export {
+  EMPTY_LIST_MESSAGE,
+  formatBookLine,
+  formatBookList,
+  createListBooksHandler,
+  registerListCommand,
+  type CommandRegistrar,
+  type ListHandler,
+} from './features/list-books.js';

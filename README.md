@@ -12,6 +12,7 @@ npm install
 npm test        # 运行单元测试
 npm run typecheck  # 类型检查
 npm run build   # 编译到 dist/
+python3 -m unittest discover -s tests  # 运行 Python 命令行单元测试
 ```
 
 ## 目录
@@ -20,4 +21,6 @@ npm run build   # 编译到 dist/
 - `src/store/book-store.ts`：进程内 `BookStore` 集合与单例 `bookStore`。
 - `src/data/sample-books.ts`：样例图书清单与启动初始化 `initializeSampleBooks`。
 - `src/rules/borrow-rules.ts`：借阅/归还状态规则与固定错误文案（纯判定）。
+- `src/features/list-books.ts`：`list` 图书列表的格式化与处理器（消费 `BookStore`）。
+- `library/`：命令行入口（`python3 -m library list`）与 `list` 命令处理。
 - `docs/designs/`：设计说明；`docs/test-cases/`：测试用例清单。
