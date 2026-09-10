@@ -45,3 +45,8 @@ export {
   borrow,
   type BorrowResult,
 } from './features/borrow-book.js';
+export {
+  RETURN_SUCCESS_MESSAGE,
+  returnBook,
+  type ReturnResult,
+} from './features/return-book.js';
