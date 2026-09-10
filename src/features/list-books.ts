@@ -1,5 +1,10 @@
 import { BookStatus, type Book } from '../domain/book.js';
 import { type BookStore } from '../store/book-store.js';
+import { type CommandHandler, type CommandRegistrar } from './command.js';
+
+// FP-010 曾把注册面类型定义在本模块；移至 `command.ts` 后保留再导出，
+// 以免破坏既有的 `registerListCommand` 调用方。
+export type { CommandRegistrar };
 
 /** 空集合提示文案（任务卡 §3.2 输出格式契约）。 */
 export const EMPTY_LIST_MESSAGE = '暂无图书';
@@ -10,13 +15,8 @@ const STATUS_LABELS: Record<BookStatus, string> = {
   [BookStatus.Borrowed]: '已借出',
 };
 
-/** FP-005 契约的处理器形状：接收子命令参数，返回结果文本。 */
-export type ListHandler = (args: readonly string[]) => string;
-
-/** 命令行分发面的最小契约（FP-005 §3.2 的 `register`）。 */
-export interface CommandRegistrar {
-  register(name: string, handler: ListHandler): unknown;
-}
+/** FP-005 契约的 `list` 处理器形状。 */
+export type ListHandler = CommandHandler;
 
 /** 格式化单本图书为「编号 名称 状态」；未知状态原样回退。 */
 export function formatBookLine(book: Book): string {
