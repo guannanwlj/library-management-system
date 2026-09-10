@@ -40,3 +40,8 @@ export {
   type CommandRegistrar,
   type ListHandler,
 } from './features/list-books.js';
+export {
+  BORROW_SUCCESS_MESSAGE,
+  borrow,
+  type BorrowResult,
+} from './features/borrow-book.js';
